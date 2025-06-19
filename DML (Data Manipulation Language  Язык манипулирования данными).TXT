@@ -1,0 +1,122 @@
+DML (Data Manipulation Language / Язык манипулирования данными)
+Операции с содержимым таблиц
+
+SELECT — запрос данных:
+INSERT — добавление записи:
+UPDATE — изменение данных:
+DELETE — удаление строки:
+
+//////////////////////////////// INSERT - ВСТАВЛЯТЬ ////////////////////////////////
+
+//выбрать колонку из таблицы
+SELECT product_type FROM product_list;
+
+//выбрать и сгруппировать колонку из таблицы
+SELECT product_type FROM product_list
+GROUP BY product_type;
+
+//вставить одно значение
+INSERT INTO product_list (name, product_type, is_group, parrent_id)
+VALUES ('ящик', 'тара', false, null);
+
+INSERT INTO product_type (name)
+VALUES ('тара');
+
+//пакетная вставка в таблицу product_list
+INSERT INTO product_list (name, is_group, parrent_id, product_type_id)
+VALUES 
+('кресло', false, null, 1),
+('карандаш эрих краузе', false, null, 1),
+('маркер', false, null, 1),
+('бумага', false, null, 1),
+('линейка', false, null, 1),
+('калькулятор', false, null, 1),
+('доставка', false, null, 2),
+('ящик', false , null, 3),
+('канцтовары', true, null, 1),
+('упаковка', true, null, 3);
+
+//пакетная вставка в таблицу product_type
+INSERT INTO product_type (name)
+VALUES 
+('товар'),
+('услуга'),
+('упаковка');
+
+//пакетная вставка в таблицу currency (Валюта)
+INSERT INTO currency (name)
+VALUES 
+('Рубль РФ'),
+('Доллар США'),
+('Китайский юань');
+
+//пакетная вставка в таблицу counterparty_type (ТипКонтрагента)
+INSERT INTO counterparty_type (name)
+VALUES ('Поставщик'),
+('Покупатель');
+
+//пакетная вставка в таблицу contact_information_type (ТипКонтактнаяИнформация)
+INSERT INTO contact_information_type (name)
+VALUES 
+('Юр адрес'),
+('Номер телефона'),
+('Email');
+
+//пакетная вставка в таблицу counterparties_list (Контрагенты)
+INSERT INTO counterparties_list (name)
+VALUES 
+('ПАО "ЛУКОЙЛ"'),
+('ПАО "Росснефть"'),
+('ПАО "Газпром"');
+
+/пакетная вставка в таблицу Contact_information (КонтактнаяИнформация)
+INSERT INTO Contact_information (ID_type_ки, ID_counterparty, meaning)
+VALUES 
+(1, 1, '101000, Российская Федерация, г. Москва, Сретенский бульвар, дом 11'),
+(2, 1, '+7495627‑4444'),
+(3, 1, 'lukoil@lukoil.ru'),
+(1, 2, 'Россия, 117997, г. Москва, Софийская набережная, д.26/1'),
+(2, 2, '+7(499)517‑72‑35'),
+(3, 2, 'postman@rosneft.ru'),
+(1, 3, '197229, Россия, г. Санкт‑Петербург, Лахтинский проспект, д.2, корп.3, стр.1'),
+(2, 3, '+7(495)719‑30‑01'),
+(2, 3, '+7(495)719‑83‑33 (факс)'),
+(3, 3, 'gazprom@gazprom.ru');
+
+/пакетная вставка в таблицу contracts (Договоры)
+INSERT INTO contracts (number_contracts, date, conditions, ID_type_counterparty, ID_currency, ID_counterparty)
+VALUES 
+(98865, '2025-06-13', 'многа буков о том кто кому и что должен', 1, 1, 1),
+(78278, '2024-08-03', 'многа буков о том кто кому и что должен', 2, 1, 1),
+(828, '2024-12-15', 'многа буков о том кто кому и что должен', 1, 1, 2),
+(8288, '2023-11-25', 'многа буков о том кто кому и что должен', 1, 1, 3);
+
+//вставить отобранные значения в новую таблицу
+INSERT INTO product_type (name)
+SELECT product_type FROM product_list GROUP BY product_type;
+
+
+//////////////////////////////// UPDATE - ОБНОВЛЯТЬ ////////////////////////////////
+
+//замена одного значения
+UPDATE product_list SET name = 'карандаш паркер' WHERE id = 3;
+
+UPDATE product_list SET product_type_id = NULL WHERE id = 9;
+
+//заполнение колонки по условию
+UPDATE product_list SET product_type_id = 1 WHERE product_type = 'услуга';
+UPDATE product_list SET product_type_id = 2 WHERE product_type = 'товар';
+UPDATE product_list SET product_type_id = 3 WHERE product_type = 'тара';
+
+UPDATE product_list SET parrent_id = 9 WHERE product_type_id = 1;
+UPDATE product_list SET parrent_id = 10 WHERE product_type_id = 3;
+
+
+//////////////////////////////// DELETE - УДАЛИТЬ ////////////////////////////////
+
+//удаление данных из таблицы по id
+DELETE FROM product_list WHERE id = 5;
+
+//удалить колонку таблицы
+ALTER TABLE product_list DROP COLUMN product_type;
+ALTER TABLE Contact_information DROP COLUMN name;

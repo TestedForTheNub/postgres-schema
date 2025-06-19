@@ -1,0 +1,90 @@
+DDL (Data Definition Language / Язык определения данных)
+
+CREATE — создание таблицы
+ALTER — изменение таблицы
+DROP — удаление таблицы
+TRUNCATE — очистка таблицы
+
+//////////////////////////////// CREATE - СОЗДАВАТЬ ////////////////////////////////
+
+//создать таблицу product_list
+CREATE TABLE product_list 
+(id SERIAL PRIMARY KEY, 
+name VARCHAR(150),
+is_group BOOLEAN,
+parrent_id INT,
+product_type_id INT);
+
+//создать таблицу product_type
+CREATE TABLE product_type (id SERIAL PRIMARY KEY,
+name VARCHAR(50));
+
+//создать таблицу counterparties_list
+CREATE TABLE counterparties_list 
+(id SERIAL PRIMARY KEY, 
+name VARCHAR(150));
+
+//создать таблицу contact_information
+CREATE TABLE contact_information 
+(id SERIAL PRIMARY KEY, 
+name VARCHAR(150),
+ID_type_ки INT,
+ID_counterparty INT,
+meaning VARCHAR(150));
+
+//создать таблицу contact_information_type
+CREATE TABLE contact_information_type 
+(id SERIAL PRIMARY KEY, 
+name VARCHAR(150));
+
+//создать таблицу contracts
+CREATE TABLE contracts 
+(id SERIAL PRIMARY KEY, 
+number_contracts INT,
+date DATE,
+conditions TEXT,
+ID_type_counterparty INT,
+ID_currency INT);
+
+//создать таблицу currency (Валюта)
+CREATE TABLE currency 
+(id SERIAL PRIMARY KEY, 
+name VARCHAR(50));
+
+//создать таблицу counterparty_type (ТипКонтрагента)
+CREATE TABLE counterparty_type 
+(id SERIAL PRIMARY KEY, 
+name VARCHAR(150));
+
+//////////////////////////////// ALTER - ИЗМЕНИТЬ ////////////////////////////////
+
+//переименовать таблицу
+//ALTER TABLE имя_старой_таблицы RENAME TO имя_новой_таблицы;
+
+ALTER TABLE counterparties_list RENAME TO partners_list;
+ALTER TABLE counterparty_type RENAME TO partners_type;
+
+//переименовать столбец в таблице
+//ALTER TABLE имя_таблицы RENAME COLUMN старое_имя TO новое_имя;
+
+ALTER TABLE partners_list RENAME COLUMN ID TO id;
+ALTER TABLE contact_information RENAME COLUMN id_type_ки TO contact_information_type_id;
+ALTER TABLE contact_information RENAME COLUMN ID_counterparty TO partners_list_id;
+ALTER TABLE contracts RENAME COLUMN id_counterparty TO partners_list_id;
+ALTER TABLE contracts RENAME COLUMN id_type_counterparty TO partners_type_id;
+ALTER TABLE contracts RENAME COLUMN id_currency TO currency_id;
+
+///добавить колонку
+ALTER TABLE product_list ADD COLUMN "unit" VARCHAR(50);
+ALTER TABLE product_list ADD COLUMN "product_type_id" INT;
+ALTER TABLE contracts ADD COLUMN ID_counterparty INT;
+
+///удалить колонку
+ALTER TABLE product_list DROP COLUMN unit
+ALTER TABLE contracts DROP COLUMN "ID_counterparty"
+
+//////////////////////////////// DROP - УДАЛИТЬ ////////////////////////////////
+
+//удалить таблицу
+DROP TABLE
+

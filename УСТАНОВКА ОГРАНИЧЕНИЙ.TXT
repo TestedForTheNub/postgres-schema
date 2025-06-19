@@ -1,0 +1,120 @@
+
+//////////////////////////////////// УСТАНОВКА ОГРАНИЧЕНИЙ ///////////////////////////////
+
+ALTER TABLE product_list ALTER COLUMN is_group SET DEFAULT FALSE;
+ALTER TABLE product_list ADD CONSTRAINT unique_name UNIQUE(name);
+
+//ограничение по совокупности колонок
+ALTER TABLE product_list ADD CONSTRAINT unique_name UNIQUE(name, product_type_id);
+
+// ограичение NOT NULL
+
+///ограничения для таблицы contracts (Договоры)
+ALTER TABLE contracts
+ALTER COLUMN number_contracts SET NOT NULL,
+ALTER COLUMN date SET NOT NULL,
+ALTER COLUMN id_counterparty SET NOT NULL,
+ALTER COLUMN id_currency SET NOT NULL,
+ALTER COLUMN id_type_counterparty SET NOT NULL;
+
+///ограничения для таблицы product_type (ТипыНоменклатуры) 
+ALTER TABLE product_type
+ALTER COLUMN name SET NOT NULL;
+
+///ограничения для таблицы counterparties_list (Контрагенты) 
+ALTER TABLE counterparties_list
+ALTER COLUMN name SET NOT NULL;
+
+///ограничения для таблицы currency (Валюта) 
+ALTER TABLE currency
+ALTER COLUMN name SET NOT NULL;
+
+///ограничения для таблицы counterparty_type (ТипКонтрагента)
+ALTER TABLE counterparty_type
+ALTER COLUMN name SET NOT NULL;
+
+///ограничения для таблицы contact_information_type (ТипКонтактнаяИнформация)
+ALTER TABLE contact_information_type
+ALTER COLUMN name SET NOT NULL;
+
+///ограничения для таблицы Contact_information (КонтактнаяИнформация)
+ALTER TABLE Contact_information
+ALTER COLUMN ID_type_ки SET NOT NULL,
+ALTER COLUMN ID_counterparty SET NOT NULL,
+ALTER COLUMN meaning SET NOT NULL;
+
+///ограничения для таблицы product_list (Номенклатура)
+ALTER TABLE product_list
+ALTER COLUMN name SET NOT NULL;
+
+// ограничения UNIQUE
+
+/// ограничения для таблицы contracts (Договоры) - номера контрактов могут повторяться, но не должны дублироваться в паре с контрагентом
+ALTER TABLE contracts
+ADD CONSTRAINT unique_number_per_counterparty UNIQUE (number_contracts, id_counterparty);
+
+/// ограничения для таблицы product_type (ТипыНоменклатуры)
+ALTER TABLE product_type
+ADD CONSTRAINT unique_product_type_name UNIQUE (name);
+
+// ограничения для таблицы currency (Валюта)
+ALTER TABLE currency
+ADD CONSTRAINT unique_currency_name UNIQUE (name);
+
+// ограничения для таблицы counterparty_type (ТипКонтрагента)
+ALTER TABLE currency
+ADD CONSTRAINT unique_counterparty_type_name UNIQUE (name);
+
+// ограничения для таблицы contact_information_type (ТипКонтактнаяИнформация)
+ALTER TABLE currency
+ADD CONSTRAINT unique_contact_information_type_name UNIQUE (name);
+
+// ограничения для таблицы counterparties_list (Контрагенты)
+ALTER TABLE currency
+ADD CONSTRAINT unique_counterparties_list_name UNIQUE (name);
+
+
+//ограичение foreign key
+
+///для таблицы contracts (Договоры)
+ALTER TABLE contracts
+ADD CONSTRAINT fk_counterparty
+FOREIGN KEY (id_counterparty)
+REFERENCES counterparties_list(id);
+
+ALTER TABLE contracts
+ADD CONSTRAINT fk_type_counterparty
+FOREIGN KEY (ID_type_counterparty)
+REFERENCES counterparty_type(id);
+
+ALTER TABLE contracts
+ADD CONSTRAINT fk_currency
+FOREIGN KEY (ID_currency)
+REFERENCES currency(id);
+
+///для таблицы Contact_information (КонтактнаяИнформация)
+ALTER TABLE Contact_information
+ADD CONSTRAINT fk_ID_type_ки
+FOREIGN KEY (ID_type_ки)
+REFERENCES contact_information_type(id);
+
+ALTER TABLE Contact_information
+ADD CONSTRAINT fk_ID_counterparty
+FOREIGN KEY (ID_counterparty)
+REFERENCES counterparties_list(id);
+
+///для таблицы product_list (Номенклатура)
+ALTER TABLE product_list
+ADD CONSTRAINT fk_product_type
+FOREIGN KEY (product_type_id)
+REFERENCES product_type(id);
+
+///////////////////////////////////////удаление ограничений
+ALTER TABLE contracts DROP CONSTRAINT unique_number_contracts;
+
+
+
+
+
+
+ 

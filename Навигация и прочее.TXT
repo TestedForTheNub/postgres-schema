@@ -1,0 +1,36 @@
+//////////////////////////////////// ПРОЧЕЕ ///////////////////////////////
+
+//список таблиц
+\d
+\dt
+
+//Подробно о таблице
+\d+ product_list
+\d+ product_type
+\d+ currency
+\d+ contact_information
+\d+ contracts
+\d+ partners_list
+
+//выбрать все из таблицы
+SELECT * FROM product_list;
+SELECT * FROM product_type;
+SELECT * FROM currency;
+SELECT * FROM counterparty_type;
+SELECT * FROM contact_information_type;
+SELECT * FROM partners_list;
+SELECT * FROM Contact_information;
+SELECT * FROM contracts;
+
+
+//сменить кодировку
+psql \! chcp 1251
+
+//Узнать путь к data directory (где хранятся все БД)
+SHOW data_directory;
+
+//Команда для дампа базы ЧЕРЕЗ КОМАНДНУЮ СТРОКУ!!!
+pg_dump -U postgres -d postgres > C:\Users\user\Desktop\backupmy_database/my_database_dump.sql
+
+//Замена пароля БД
+ALTER USER postgres WITH PASSWORD '1234';

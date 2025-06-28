@@ -79,6 +79,19 @@ ALTER TABLE product_list ADD COLUMN "unit" VARCHAR(50);
 ALTER TABLE product_list ADD COLUMN "product_type_id" INT;
 ALTER TABLE contracts ADD COLUMN ID_counterparty INT;
 
+ALTER TABLE product_list
+ADD COLUMN relevant boolean DEFAULT TRUE;
+
+UPDATE product_list
+SET relevant = TRUE
+WHERE relevant IS NULL;
+
+ALTER TABLE partners_list
+ADD COLUMN relevant boolean DEFAULT TRUE;
+
+ALTER TABLE contracts
+ADD COLUMN relevant boolean DEFAULT TRUE;
+
 ///удалить колонку
 ALTER TABLE product_list DROP COLUMN unit
 ALTER TABLE contracts DROP COLUMN "ID_counterparty"

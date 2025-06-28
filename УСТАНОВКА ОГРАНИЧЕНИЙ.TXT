@@ -74,9 +74,10 @@ ALTER TABLE currency
 ADD CONSTRAINT unique_counterparties_list_name UNIQUE (name);
 
 
-//ограичение foreign key
+///////////////////////////////////////////////ограничение FK (foreign key)
 
-///для таблицы contracts (Договоры)
+///////////////////////////////////////////////для таблицы contracts (Договоры)
+//OLD
 ALTER TABLE contracts
 ADD CONSTRAINT fk_counterparty
 FOREIGN KEY (id_counterparty)
@@ -92,7 +93,36 @@ ADD CONSTRAINT fk_currency
 FOREIGN KEY (ID_currency)
 REFERENCES currency(id);
 
-///для таблицы Contact_information (КонтактнаяИнформация)
+///удаление этих ограничений
+ALTER TABLE contracts DROP CONSTRAINT fk_counterparty;
+ALTER TABLE contracts DROP CONSTRAINT fk_type_counterparty;
+ALTER TABLE contracts DROP CONSTRAINT fk_currency;
+
+//NEW
+ALTER TABLE contracts
+ADD CONSTRAINT fk_partners_list
+FOREIGN KEY (partners_list_id)
+REFERENCES partners_list(id)
+ON DELETE RESTRICT
+ON UPDATE CASCADE;
+
+ALTER TABLE contracts
+ADD CONSTRAINT fk_partners_type
+FOREIGN KEY (partners_type_id)
+REFERENCES partners_type(id)
+ON DELETE RESTRICT
+ON UPDATE CASCADE;
+
+ALTER TABLE contracts
+ADD CONSTRAINT fk_currency
+FOREIGN KEY (currency_id)
+REFERENCES currency(id)
+ON DELETE RESTRICT
+ON UPDATE CASCADE;
+
+///////////////////////////////////////////////для таблицы Contact_information (КонтактнаяИнформация)
+
+//OLD
 ALTER TABLE Contact_information
 ADD CONSTRAINT fk_ID_type_ки
 FOREIGN KEY (ID_type_ки)
@@ -103,14 +133,40 @@ ADD CONSTRAINT fk_ID_counterparty
 FOREIGN KEY (ID_counterparty)
 REFERENCES counterparties_list(id);
 
-///для таблицы product_list (Номенклатура)
+///удаление этих ограничений
+ALTER TABLE contact_information DROP CONSTRAINT fk_contact_information_type;
+ALTER TABLE contact_information DROP CONSTRAINT fk_contact_info_partner;
+
+//NEW
+ALTER TABLE contact_information
+ADD CONSTRAINT fk_contact_information_type
+FOREIGN KEY (contact_information_type_id)
+REFERENCES contact_information_type(id)
+ON DELETE RESTRICT
+ON UPDATE CASCADE;
+
+ALTER TABLE contact_information
+ADD CONSTRAINT fk_partners_list
+FOREIGN KEY (partners_list_id)
+REFERENCES partners_list(id)
+ON DELETE RESTRICT
+ON UPDATE CASCADE;
+
+
+///////////////////////////////////////////////для таблицы product_list (Номенклатура)
 ALTER TABLE product_list
 ADD CONSTRAINT fk_product_type
 FOREIGN KEY (product_type_id)
-REFERENCES product_type(id);
+REFERENCES product_type(id)
+ON DELETE RESTRICT
+ON UPDATE CASCADE;
 
-///////////////////////////////////////удаление ограничений
-ALTER TABLE contracts DROP CONSTRAINT unique_number_contracts;
+ALTER TABLE product_list
+ADD CONSTRAINT fk_parrent_id
+FOREIGN KEY (parrent_id)
+REFERENCES product_list(id)
+ON DELETE SET NULL
+ON UPDATE CASCADE;
 
 
 

@@ -11,15 +11,16 @@
 \d+ contact_information
 \d+ contracts
 \d+ partners_list
+\d+ contact_information_type
 
 //выбрать все из таблицы
 SELECT * FROM product_list;
 SELECT * FROM product_type;
 SELECT * FROM currency;
-SELECT * FROM counterparty_type;
+SELECT * FROM partners_type;
 SELECT * FROM contact_information_type;
 SELECT * FROM partners_list;
-SELECT * FROM Contact_information;
+SELECT * FROM contact_information;
 SELECT * FROM contracts;
 
 

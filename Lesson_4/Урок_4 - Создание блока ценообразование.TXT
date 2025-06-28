@@ -1,0 +1,35 @@
+
+//создать таблицу price_types 
+CREATE TABLE price_types 
+(id SERIAL PRIMARY KEY, 
+name VARCHAR(150));
+
+//создать таблицу doc_set_price 
+CREATE TABLE doc_set_price 
+(id SERIAL PRIMARY KEY, 
+number VARCHAR(150),
+carryng BOOLEAN,
+relevant BOOLEAN DEFAULT TRUE);
+
+//создать таблицу prices 
+CREATE TABLE prices 
+(date DATE,
+product_list_id VARCHAR(150),
+price REAL,
+doc_set_price_id INT NOT NULL,
+price_types_id INT NOT NULL,
+PRIMARY KEY (date, product_list_id),
+CONSTRAINT fk_price_type FOREIGN KEY (price_types_id)
+REFERENCES price_types(id));
+
+//создать таблицу doc_set_price_product_list (ТЧ "Номенклатура" ДокументаУстановкаЦены) 
+CREATE TABLE doc_set_price_product_list 
+(date DATE,
+doc_set_price_id INT NOT NULL,
+row_id INT NOT NULL,
+product_list_id INT NOT NULL,
+price NUMERIC(10, 2),
+PRIMARY KEY (doc_set_price_id, row_id),
+CONSTRAINT fk_doc_set_price FOREIGN KEY (doc_set_price_id)
+REFERENCES doc_set_price(id));
+
